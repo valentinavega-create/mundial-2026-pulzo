@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Copa 2026 Pulzo</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:100%;font-family:'Nunito Sans',sans-serif;background:transparent;}
+:root{--p:#8f00ff;--sec:#3c00a3;--bg1:#fff;--bg2:#f9f7ff;--bg3:#f3f0ff;--bdr1:#e8e2ff;--bdr2:#d4c9ff;--t1:#1a1625;--t2:#524e6e;--t3:#7a7289;}
+.bar{border:1px solid var(--p);border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(143,0,255,.18);background:var(--bg1);}
+.row1{background:var(--bg2);display:flex;align-items:center;padding:11px 16px;gap:8px;border-bottom:1.5px solid var(--bdr1);overflow:hidden;}
+.brand{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.brand-title{font-size:15px;font-weight:700;color:var(--t1);white-space:nowrap;}
+.sep{width:1.5px;height:18px;background:var(--bdr2);flex-shrink:0;margin:0 2px;}
+.live-badge{display:none;align-items:center;gap:6px;flex-shrink:0;}
+.live-badge.on{display:flex;}
+.live-dot{width:8px;height:8px;background:#22c55e;border-radius:50%;animation:blink 1.2s infinite;box-shadow:0 0 6px rgba(34,197,94,.5);}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.live-label{font-size:12px;font-weight:700;color:var(--t2);white-space:nowrap;}
+.ticker-wrap{flex:1;overflow:hidden;min-width:0;}
+.ticker-inner{display:inline-flex;align-items:center;white-space:nowrap;animation:tmove 20s linear infinite;}
+.ticker-inner.still{animation:none;}
+@keyframes tmove{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.tscore{font-size:13px;font-weight:700;color:var(--t1);padding-right:40px;}
+.row2{background:var(--bg1);padding:10px 12px;display:flex;gap:8px;}
+.rbtn{display:flex;align-items:center;justify-content:center;gap:7px;padding:9px 0;flex:1;border:1.5px solid var(--bdr2);border-radius:10px;background:var(--bg1);color:var(--t2);font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .15s;font-family:'Nunito Sans',sans-serif;}
+.rbtn i{font-size:15px;color:var(--p);}
+.rbtn:hover{background:var(--bg3);color:var(--p);border-color:var(--p);}
+.rbtn.on{background:var(--p);color:#fff;border-color:var(--p);}
+.rbtn.on i{color:#fff;}
+.panel{padding:16px;background:var(--bg1);border-top:1.5px solid var(--bdr1);display:none;}
+.panel.on{display:block;}
+.spin{text-align:center;padding:24px;color:var(--t3);font-size:13px;}
+.spin i{font-size:24px;color:var(--p);display:block;margin:0 auto 8px;animation:rot 1s linear infinite;}
+@keyframes rot{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.err{text-align:center;padding:16px;color:var(--t3);font-size:13px;background:var(--bg2);border-radius:8px;}
+.ni{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--bdr1);text-decoration:none;}
+.ni:last-child{border-bottom:none;}
+.ni:hover .nt{color:var(--p);}
+.nimg{width:80px;height:58px;border-radius:8px;background:var(--bg3);flex-shrink:0;overflow:hidden;border:1px solid var(--bdr1);}
+.nimg img{width:100%;height:100%;object-fit:cover;}
+.nph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
+.nph i{font-size:22px;color:var(--p);opacity:.35;}
+.ncat{font-size:10px;font-weight:700;color:var(--p);text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px;}
+.nt{font-size:13px;color:var(--t1);line-height:1.4;font-weight:600;margin-bottom:4px;transition:color .15s;}
+.ntime{font-size:11px;color:var(--t3);}
+.dlabel{font-size:10px;font-weight:700;color:var(--p);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.dlabel::after{content:'';flex:1;height:1px;background:var(--bdr1);}
+.mc{border:1.5px solid var(--bdr1);border-radius:10px;padding:11px 14px;margin-bottom:8px;background:var(--bg2);}
+.mc.vivo{border-color:var(--p);background:#faf6ff;}
+.vbadge{display:inline-flex;align-items:center;gap:5px;background:var(--p);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:5px;margin-bottom:7px;}
+.vbadge span{width:6px;height:6px;background:#4ade80;border-radius:50%;animation:blink 1.2s infinite;}
+.mteams{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:14px;font-weight:700;color:var(--t1);}
+.mvs{font-size:11px;color:var(--t3);font-weight:400;background:#fff;border:1px solid var(--bdr2);padding:1px 7px;border-radius:4px;}
+.mscore{font-size:20px;font-weight:700;color:var(--p);background:var(--bg3);padding:2px 12px;border-radius:6px;margin:0 4px;}
+.mmeta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+.mhora{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--sec);}
+.ch{background:#fff;border:1.5px solid var(--bdr2);border-radius:6px;padding:3px 9px;font-size:11px;color:var(--t2);font-weight:600;}
+.gg{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;}
+.gc{border:1.5px solid var(--bdr1);border-radius:10px;overflow:hidden;}
+.gh{padding:8px 12px;background:var(--bg3);font-size:11px;font-weight:700;color:var(--sec);text-transform:uppercase;letter-spacing:.5px;display:flex;justify-content:space-between;border-bottom:1px solid var(--bdr1);}
+.gr{display:flex;align-items:center;padding:6px 10px;border-bottom:1px solid var(--bdr1);font-size:12px;gap:5px;}
+.gr:last-child{border-bottom:none;}
+.pos{width:15px;font-size:11px;color:var(--t3);flex-shrink:0;text-align:center;}
+.pos1{color:var(--p);font-weight:700;}.pos2{color:var(--sec);font-weight:700;}
+.tname{flex:1;color:var(--t1);font-weight:600;font-size:12px;min-width:60px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.st{width:18px;text-align:center;color:var(--t3);font-size:11px;flex-shrink:0;}
+.st.pts{font-weight:700;color:var(--t1);}
+.cbadge{font-size:8px;font-weight:700;background:var(--bg3);color:var(--p);border:1px solid var(--bdr1);border-radius:4px;padding:1px 4px;white-space:nowrap;flex-shrink:0;}
+.ptitle{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.ptitle::after{content:'';flex:1;height:1px;background:var(--bdr1);}
+.pcard{border:1.5px solid var(--bdr1);border-radius:10px;padding:14px;margin-bottom:10px;background:var(--bg2);}
+.pteams{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.pteam{flex:1;text-align:center;font-size:14px;font-weight:700;color:var(--t1);}
+.pvs{font-size:11px;color:var(--t3);background:#fff;padding:3px 9px;border-radius:6px;border:1.5px solid var(--bdr2);font-weight:600;}
+.pfav{display:inline-flex;align-items:center;gap:6px;background:var(--bg3);border:1.5px solid var(--bdr2);border-radius:8px;padding:5px 12px;font-size:12px;font-weight:700;color:var(--p);margin-bottom:11px;width:100%;}
+.pbars{display:flex;flex-direction:column;gap:7px;}
+.prow{display:flex;align-items:center;gap:8px;font-size:12px;}
+.plabel{width:80px;color:var(--t2);font-weight:600;}
+.ptrack{flex:1;height:6px;background:var(--bdr1);border-radius:3px;overflow:hidden;}
+.pfill{height:100%;border-radius:3px;background:var(--p);}
+.pfill.d{background:#b0a8c8;}.pfill.a{background:var(--sec);}
+.ppct{width:30px;text-align:right;font-weight:700;color:var(--t1);}
+.pnota{font-size:11px;color:var(--t3);margin-top:12px;text-align:center;}
+@media(max-width:600px){.rbtn{font-size:11px;padding:8px 0;gap:4px;}.gg{grid-template-columns:1fr;}.brand-title{font-size:13px;}.live-label{display:none;}}
+@media(max-width:400px){.rbtn span{display:none;}}
+</style>
+</head>
+<body>
+<div class="bar">
+  <div class="row1">
+    <div class="brand"><span class="brand-title">&#127942;&#9917; 2026</span></div>
+    <div class="sep"></div>
+    <div class="live-badge" id="livebadge">
+      <span class="live-dot"></span>
+      <span class="live-label">En vivo:</span>
+    </div>
+    <div class="ticker-wrap">
+      <div class="ticker-inner" id="ticker">
+        <span class="tscore" id="sa"></span>
+        <span class="tscore" id="sb"></span>
+      </div>
+    </div>
+  </div>
+  <div class="row2">
+    <button class="rbtn" id="bn" onclick="window.open('https://www.pulzo.com/deportes/futbol','_blank')"><i class="ti ti-news"></i><span> Noticias</span></button>
+    <button class="rbtn" id="bp" onclick="open_panel('p')"><i class="ti ti-device-tv"></i><span> Partidos en TV</span></button>
+    <button class="rbtn" id="bs" onclick="open_panel('s')"><i class="ti ti-list-numbers"></i><span> Posiciones</span></button>
+    <button class="rbtn" id="bd" onclick="open_panel('d')"><i class="ti ti-chart-bar"></i><span> Predicciones</span></button>
+  </div>
+  <div id="pn" class="panel"><div class="spin" id="nload"><i class="ti ti-loader"></i>Cargando noticias...</div><div id="nlist"></div></div>
+  <div id="pp" class="panel"><div class="spin" id="pload"><i class="ti ti-loader"></i>Cargando partidos...</div><div id="plist"></div></div>
+  <div id="ps" class="panel"><div class="spin" id="sload"><i class="ti ti-loader"></i>Cargando posiciones...</div><div id="slist"></div></div>
+  <div id="pd" class="panel"><div class="spin" id="dload"><i class="ti ti-loader"></i>Cargando predicciones...</div><div id="dlist"></div></div>
+</div>
+<script>
+var KEY = '1b272b5c66000030df14ab628948019c';
+var BASE = 'https://v3.football.api-sports.io';
+var RSS = 'https://filesstaticpulzo.s3.us-west-2.amazonaws.com/pulzo-lite/atlas/rss/rss-pulzo-futbol.xml';
+var H0 = 7, H1 = 22;
+
+var NAMES = {'South Korea':'Corea del Sur','Korea Republic':'Corea del Sur','Czech Republic':'Rep. Checa','Czechia':'Rep. Checa','Saudi Arabia':'Arabia Saudita','Ivory Coast':'Costa de Marfil','Cote d\'Ivoire':'Costa de Marfil','United States':'EE.UU.','USA':'EE.UU.','Estados Unidos':'EE.UU.','New Zealand':'Nueva Zelanda','England':'Inglaterra','Scotland':'Escocia','Wales':'Gales','Japan':'Japon','Mexico':'Mexico','Brazil':'Brasil','France':'Francia','Germany':'Alemania','Spain':'Espana','Portugal':'Portugal','Netherlands':'Paises Bajos','Belgium':'Belgica','Switzerland':'Suiza','Croatia':'Croacia','Morocco':'Marruecos','Ghana':'Ghana','Cameroon':'Camerun','Nigeria':'Nigeria','Ecuador':'Ecuador','Uruguay':'Uruguay','Chile':'Chile','Peru':'Peru','Paraguay':'Paraguay','Bolivia':'Bolivia','Venezuela':'Venezuela','Canada':'Canada','Australia':'Australia','Poland':'Polonia','Denmark':'Dinamarca','Sweden':'Suecia','Norway':'Noruega','Turkey':'Turquia','Turkiye':'Turquia','Greece':'Grecia','Hungary':'Hungria','Romania':'Rumania','Ukraine':'Ucrania','Algeria':'Argelia','Egypt':'Egipto','Tunisia':'Tunez','South Africa':'Sudafrica','Haiti':'Haiti','Panama':'Panama','Honduras':'Honduras','Slovenia':'Eslovenia','Slovakia':'Eslovaquia','Austria':'Austria','Ireland':'Irlanda','Italy':'Italia','Qatar':'Catar','Serbia':'Serbia','Colombia':'Colombia','Argentina':'Argentina','Bosnia and Herzegovina':'Bosnia','Bosnia & Herzegovina':'Bosnia','Bosnia & Herzeg.':'Bosnia','Trinidad and Tobago':'Trinidad y Tobago','IR Iran':'Iran','Iran':'Iran','Cape Verde':'Cabo Verde','Curacao':'Curazao','Jordan':'Jordania','Iraq':'Irak','Uzbekistan':'Uzbekistan','Congo DR':'Congo RD','Congo':'Congo','North Macedonia':'Macedonia del Norte'};
+
+function tn(n){ return NAMES[n] || n; }
+
+var cur = null;
+var pcache = null;
+var scache = null;
+var dcache = null;
+
+function api(ep, p) {
+  var q = Object.assign({league:1, season:2026}, p||{});
+  var s = Object.keys(q).map(function(k){return k+'='+q[k];}).join('&');
+  return fetch(BASE+ep+'?'+s, {headers:{'x-apisports-key':KEY}}).then(function(r){return r.json();});
+}
+
+function notify() {
+  window.parent.postMessage({tipo:'mundialPulzoAlto', alto:document.body.scrollHeight},'*');
+}
+
+function open_panel(id) {
+  var ids = ['n','p','s','d'];
+  var bids = ['bn','bp','bs','bd'];
+  if (cur === id) {
+    ids.forEach(function(x){
+      document.getElementById('p'+x).classList.remove('on');
+      document.getElementById('b'+x).classList.remove('on');
+    });
+    cur = null;
+    notify();
+    return;
+  }
+  ids.forEach(function(x){
+    document.getElementById('p'+x).classList.remove('on');
+    document.getElementById('b'+x).classList.remove('on');
+  });
+  document.getElementById('p'+id).classList.add('on');
+  document.getElementById('b'+id).classList.add('on');
+  cur = id;
+
+  if (id === 'p') load_fixtures();
+  if (id === 's') load_standings();
+  if (id === 'd') load_predictions();
+  setTimeout(notify, 600);
+}
+
+function timeago(d) {
+  var m = Math.floor((Date.now()-new Date(d))/60000);
+  if (m<1) return 'Ahora';
+  if (m<60) return 'Hace '+m+' min';
+  var h = Math.floor(m/60);
+  if (h<24) return 'Hace '+h+' hora'+(h>1?'s':'');
+  return 'Hace '+Math.floor(h/24)+' dias';
+}
+
+function hcol(ts) {
+  var d = new Date(ts*1000 - 18000000);
+  var h = d.getUTCHours(), m = d.getUTCMinutes();
+  var ap = h>=12?'p.m.':'a.m.';
+  var h2 = h%12||12;
+  return h2+':'+(m<10?'0'+m:m)+' '+ap;
+}
+
+function dcol(ts) {
+  var D = ['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'];
+  var M = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  var d = new Date(ts*1000 - 18000000);
+  var n = new Date(Date.now()-18000000);
+  var t = new Date(Date.now()-18000000+86400000);
+  var hoy = d.getUTCDate()===n.getUTCDate()&&d.getUTCMonth()===n.getUTCMonth();
+  var man = d.getUTCDate()===t.getUTCDate()&&d.getUTCMonth()===t.getUTCMonth();
+  var lb = D[d.getUTCDay()]+' '+d.getUTCDate()+' '+M[d.getUTCMonth()];
+  if (hoy) return 'Hoy - '+lb;
+  if (man) return 'Manana - '+lb;
+  return lb;
+}
+
+var PAR = {
+  '2026-06-12':[
+    {l:'Canada',v:'Bosnia',h:'2:00 p.m.',c:['Dsports','Win Sports','Disney+']},
+    {l:'EE.UU.',v:'Paraguay',h:'8:00 p.m.',c:['Dsports','Caracol TV','RCN','Disney+']}
+  ],
+  '2026-06-13':[
+    {l:'Catar',v:'Suiza',h:'2:00 p.m.',c:['Dsports','Win Sports']},
+    {l:'Brasil',v:'Marruecos',h:'5:00 p.m.',c:['Dsports','Caracol TV','RCN','Disney+']},
+    {l:'Haiti',v:'Escocia',h:'8:00 p.m.',c:['Dsports']},
+    {l:'Australia',v:'Turquia',h:'11:00 p.m.',c:['Dsports']}
+  ],
+  '2026-06-14':[
+    {l:'Alemania',v:'Curazao',h:'12:00 p.m.',c:['Dsports']},
+    {l:'Paises Bajos',v:'Japon',h:'3:00 p.m.',c:['Dsports','Caracol TV','RCN','Disney+']},
+    {l:'Costa de Marfil',v:'Ecuador',h:'6:00 p.m.',c:['Dsports','Win Sports','Disney+']},
+    {l:'Suecia',v:'Tunez',h:'9:00 p.m.',c:['Dsports']}
+  ],
+  '2026-06-15':[
+    {l:'Espana',v:'Cabo Verde',h:'9:00 a.m.',c:['Dsports','Caracol TV','RCN','Disney+']},
+    {l:'Belgica',v:'Egipto',h:'2:00 p.m.',c:['Dsports']},
+    {l:'Arabia Saudita',v:'Uruguay',h:'5:00 p.m.',c:['Dsports','Win Sports','Disney+']},
+    {l:'Iran',v:'Nueva Zelanda',h:'8:00 p.m.',c:['Dsports']}
+  ],
+  '2026-06-16':[
+    {l:'Francia',v:'Senegal',h:'2:00 p.m.',c:['Dsports']},
+    {l:'Irak',v:'Noruega',h:'5:00 p.m.',c:['Dsports','Win Sports']},
+    {l:'Argentina',v:'Argelia',h:'8:00 p.m.',c:['Dsports','Caracol TV','RCN','Disney+']},
+    {l:'Austria',v:'Jordania',h:'11:00 p.m.',c:['Dsports']}
+  ],
+  '2026-06-17':[
+    {l:'Portugal',v:'Congo',h:'12:00 p.m.',c:['Dsports']},
+    {l:'Inglaterra',v:'Croacia',h:'3:00 p.m.',c:['Dsports','Win Sports']},
+    {l:'Ghana',v:'Panama',h:'6:00 p.m.',c:['Dsports']},
+    {l:'Uzbekistan',v:'Colombia',h:'9:00 p.m.',c:['Dsports','Caracol TV','RCN','Disney+']}
+  ],
+  '2026-06-18':[
+    {l:'Rep. Checa',v:'Sudafrica',h:'9:00 a.m.',c:['Dsports']},
+    {l:'Suiza',v:'Ucrania',h:'2:00 p.m.',c:['Dsports','Caracol TV','RCN','Disney+']},
+    {l:'Canada',v:'Catar',h:'5:00 p.m.',c:['Dsports']},
+    {l:'Mexico',v:'Corea del Sur',h:'8:00 p.m.',c:['Dsports']}
+  ],
+  '2026-06-19':[
+    {l:'EE.UU.',v:'Australia',h:'2:00 p.m.',c:['Dsports']},
+    {l:'Escocia',v:'Marruecos',h:'5:00 p.m.',c:['Dsports','Caracol TV','RCN']},
+    {l:'Brasil',v:'Haiti',h:'7:30 p.m.',c:['Dsports']},
+    {l:'Turquia',v:'Paraguay',h:'10:00 p.m.',c:['Dsports','Win Sports']}
+  ],
+  '2026-06-20':[
+    {l:'Paises Bajos',v:'Suecia',h:'12:00 p.m.',c:['Dsports','Win Sports']},
+    {l:'Alemania',v:'Costa de Marfil',h:'3:00 p.m.',c:['Dsports','Caracol TV','RCN','Disney+']},
+    {l:'Ecuador',v:'Curazao',h:'7:00 p.m.',c:['Dsports','Win Sports','Disney+']},
+    {l:'Tunez',v:'Japon',h:'11:00 p.m.',c:['Dsports']}
+  ],
+  '2026-06-21':[
+    {l:'Espana',v:'Arabia Saudita',h:'11:00 a.m.',c:['Dsports','Win Sports','Disney+']},
+    {l:'Belgica',v:'Iran',h:'2:00 p.m.',c:['Dsports','Caracol TV','RCN','Disney+']},
+    {l:'Uruguay',v:'Cabo Verde',h:'5:00 p.m.',c:['Dsports']},
+    {l:'Nueva Zelanda',v:'Egipto',h:'8:00 p.m.',c:['Dsports']}
+  ],
+  '2026-06-22':[
+    {l:'Argentina',v:'Austria',h:'12:00 p.m.',c:['Dsports','Caracol TV','RCN','Disney+']},
+    {l:'Francia',v:'Irak',h:'4:00 p.m.',c:['Dsports']},
+    {l:'Noruega',v:'Senegal',h:'7:00 p.m.',c:['Dsports','Win Sports']},
+    {l:'Jordania',v:'Argelia',h:'10:00 p.m.',c:['Dsports']}
+  ],
+  '2026-06-23':[
+    {l:'Portugal',v:'Uzbekistan',h:'12:00 p.m.',c:['Dsports','Win Sports']},
+    {l:'Inglaterra',v:'Ghana',h:'4:00 p.m.',c:['Dsports']},
+    {l:'Panama',v:'Croacia',h:'6:00 p.m.',c:['Dsports']},
+    {l:'Colombia',v:'Congo',h:'9:00 p.m.',c:['Dsports','Caracol TV','RCN','Disney+']}
+  ],
+  '2026-06-24':[
+    {l:'Suiza',v:'Canada',h:'2:00 p.m.',c:['Dsports']},
+    {l:'Bosnia',v:'Catar',h:'2:00 p.m.',c:['Dsports']},
+    {l:'Escocia',v:'Brasil',h:'5:00 p.m.',c:['Dsports','Caracol TV','RCN','Disney+']},
+    {l:'Marruecos',v:'Haiti',h:'5:00 p.m.',c:['Dsports']},
+    {l:'Rep. Checa',v:'Mexico',h:'8:00 p.m.',c:['Dsports','Win Sports']},
+    {l:'Sudafrica',v:'Corea del Sur',h:'8:00 p.m.',c:['Dsports']}
+  ],
+  '2026-06-25':[
+    {l:'Ecuador',v:'Alemania',h:'3:00 p.m.',c:['Dsports','Caracol TV','RCN','Disney+']},
+    {l:'Curazao',v:'Costa de Marfil',h:'3:00 p.m.',c:['Dsports']},
+    {l:'Tunez',v:'Paises Bajos',h:'6:00 p.m.',c:['Dsports','Win Sports']},
+    {l:'Japon',v:'Suecia',h:'6:00 p.m.',c:['Dsports']},
+    {l:'Turquia',v:'EE.UU.',h:'9:00 p.m.',c:['Dsports']},
+    {l:'Paraguay',v:'Australia',h:'9:00 p.m.',c:['Dsports']}
+  ],
+  '2026-06-26':[
+    {l:'Senegal',v:'Irak',h:'2:00 p.m.',c:['Dsports']},
+    {l:'Noruega',v:'Francia',h:'2:00 p.m.',c:['Dsports','Win Sports']},
+    {l:'Uruguay',v:'Espana',h:'7:00 p.m.',c:['Dsports','Caracol TV','RCN','Disney+']},
+    {l:'Cabo Verde',v:'Arabia Saudita',h:'7:00 p.m.',c:['Dsports']},
+    {l:'Nueva Zelanda',v:'Belgica',h:'10:00 p.m.',c:['Dsports']},
+    {l:'Egipto',v:'Iran',h:'10:00 p.m.',c:['Dsports']}
+  ],
+  '2026-06-27':[
+    {l:'Panama',v:'Inglaterra',h:'4:00 p.m.',c:['Dsports']},
+    {l:'Croacia',v:'Ghana',h:'4:00 p.m.',c:['Dsports']},
+    {l:'Colombia',v:'Portugal',h:'8:30 p.m.',c:['Dsports','Caracol TV','RCN','Disney+']},
+    {l:'Congo',v:'Uzbekistan',h:'8:30 p.m.',c:['Dsports']},
+    {l:'Jordania',v:'Argentina',h:'9:00 p.m.',c:['Dsports','Win Sports','Disney+']},
+    {l:'Argelia',v:'Austria',h:'9:00 p.m.',c:['Dsports']}
+  ]
+};
+
+function norm(s) {
+  if (!s) return '';
+  var r = s.toLowerCase();
+  var ac = String.fromCharCode;
+  var map = [[ac(225),ac(224),'a'],[ac(233),ac(232),'e'],[ac(237),ac(236),'i'],[ac(243),ac(242),'o'],[ac(250),ac(249),'u'],[ac(241),'','n']];
+  map.forEach(function(x){ r=r.split(x[0]).join(x[2]); if(x[1]) r=r.split(x[1]).join(x[2]); });
+  return r.split(' ').join('').split('.').join('').split('-').join('');
+}
+
+function get_channels(ts, lo, vi) {
+  var d = new Date(ts*1000-18000000);
+  var k = d.getUTCFullYear()+'-'+String(d.getUTCMonth()+1).padStart(2,'0')+'-'+String(d.getUTCDate()).padStart(2,'0');
+  var day = PAR[k];
+  if (!day) return ['Dsports'];
+  var nl=norm(lo), nv=norm(vi);
+  console.log('Buscando canales fecha:'+k+' local:'+lo+'('+nl+') visita:'+vi+'('+nv+')');
+  // Primero buscar coincidencia exacta de los dos equipos
+  for (var i=0;i<day.length;i++) {
+    var pl=norm(day[i].l), pv=norm(day[i].v);
+    if ((pl===nl&&pv===nv)||(pl===nv&&pv===nl)) {
+      console.log('Exacto encontrado:'+day[i].l+' vs '+day[i].v);
+      return day[i].c;
+    }
+  }
+  // Si no hay exacta, buscar por un solo equipo
+  for (var i=0;i<day.length;i++) {
+    var pl=norm(day[i].l), pv=norm(day[i].v);
+    if (pl===nl||pv===nv||pl===nv||pv===nl) {
+      console.log('Parcial encontrado:'+day[i].l+' vs '+day[i].v);
+      return day[i].c;
+    }
+  }
+  console.log('No encontrado, devolviendo Dsports');
+  return ['Dsports'];
+}
+
+
+function load_fixtures() {
+  if (pcache){render_fixtures(pcache);return;}
+  var el=document.getElementById('pload'), li=document.getElementById('plist');
+  el.style.display='block'; li.innerHTML='';
+  Promise.all([api('/fixtures',{live:'all'}), api('/fixtures',{next:12})])
+    .then(function(res){
+      el.style.display='none';
+      var vivos=res[0].response||[], prox=res[1].response||[];
+      var vids=vivos.map(function(f){return f.fixture.id;});
+      var todos=vivos.concat(prox.filter(function(f){return vids.indexOf(f.fixture.id)===-1;}));
+      if(!todos.length){render_fixtures_fallback();return;}
+      pcache=todos; render_fixtures(todos);
+    })
+    .catch(function(){el.style.display='none';render_fixtures_fallback();});
+}
+
+function render_fixtures_fallback() {
+  var li=document.getElementById('plist'); li.innerHTML='';
+  var hoy = new Date(Date.now()-18000000);
+  var D=['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'];
+  var M=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  var k=hoy.getUTCFullYear()+'-'+String(hoy.getUTCMonth()+1).padStart(2,'0')+'-'+String(hoy.getUTCDate()).padStart(2,'0');
+  var day=PAR[k];
+  if(!day){li.innerHTML='<div class="err">No hay partidos programados para hoy.</div>';return;}
+  var lb=document.createElement('div'); lb.className='dlabel';
+  lb.textContent='Hoy - '+D[hoy.getUTCDay()]+' '+hoy.getUTCDate()+' '+M[hoy.getUTCMonth()];
+  li.appendChild(lb);
+  day.forEach(function(p){
+    var mc=document.createElement('div'); mc.className='mc';
+    mc.innerHTML='<div class="mteams">'+p.l+' <span class="mvs">vs</span> '+p.v+'</div><div class="mmeta"><span class="mhora"><i class="ti ti-clock"></i> '+p.h+'</span>'+p.c.map(function(c){return '<span class="ch">'+c+'</span>';}).join('')+'</div>';
+    li.appendChild(mc);
+  });
+  li.innerHTML+='<p style="font-size:11px;color:var(--t3);margin-top:12px;text-align:center">* Horarios hora Colombia. Canales referenciales.</p>';
+  notify();
+}
+
+function render_fixtures(list) {
+  var li=document.getElementById('plist'); li.innerHTML='';
+  var days={};
+  list.forEach(function(f){
+    var d=new Date(f.fixture.timestamp*1000-18000000);
+    var k=d.getUTCFullYear()+'-'+String(d.getUTCMonth()+1).padStart(2,'0')+'-'+String(d.getUTCDate()).padStart(2,'0');
+    if(!days[k])days[k]=[];
+    days[k].push(f);
+  });
+  Object.keys(days).sort().slice(0,3).forEach(function(k){
+    var lb=document.createElement('div'); lb.className='dlabel';
+    lb.textContent=dcol(days[k][0].fixture.timestamp);
+    li.appendChild(lb);
+    days[k].forEach(function(f){
+      var st=f.fixture.status.short;
+      var live=['1H','2H','ET','HT','P'].indexOf(st)!==-1;
+      var done=st==='FT';
+      var lo=tn(f.teams.home.name), vi=tn(f.teams.away.name);
+      var ch=get_channels(f.fixture.timestamp,lo,vi);
+      var mc=document.createElement('div'); mc.className='mc'+(live?' vivo':'');
+      var h='';
+      if(live) h+='<div class="vbadge"><span></span> En vivo - '+f.fixture.status.elapsed+"'</div>";
+      h+='<div class="mteams">'+lo+' <span class="mvs">vs</span> '+vi+'</div>';
+      if(live||done){
+        h+='<div class="mmeta"><span class="mscore">'+f.goals.home+' - '+f.goals.away+'</span>';
+        if(done) h+='<span style="font-size:11px;font-weight:700;color:var(--t3);background:var(--bg3);padding:2px 8px;border-radius:4px">Finalizado</span>';
+        // Mostrar canales también en vivo y final
+        ch.forEach(function(c){h+='<span class="ch">'+c+'</span>';});
+        h+='</div>';
+      } else {
+        h+='<div class="mmeta"><span class="mhora"><i class="ti ti-clock"></i> '+hcol(f.fixture.timestamp)+'</span>';
+        ch.forEach(function(c){h+='<span class="ch">'+c+'</span>';});
+        h+='</div>';
+      }
+      mc.innerHTML=h; li.appendChild(mc);
+    });
+  });
+  li.innerHTML+='<p style="font-size:11px;color:var(--t3);margin-top:12px;text-align:center">* Horarios hora Colombia. Canales referenciales.</p>';
+  notify();
+}
+
+function load_standings() {
+  if(scache){render_standings(scache);return;}
+  var el=document.getElementById('sload'), li=document.getElementById('slist');
+  el.style.display='block';
+  api('/standings',{})
+    .then(function(data){
+      el.style.display='none';
+      if(!data.response||!data.response.length){li.innerHTML='<div class="err">Posiciones disponibles al iniciar el torneo.</div>';return;}
+      scache=data.response[0].league.standings;
+      render_standings(scache);
+    })
+    .catch(function(){el.style.display='none';li.innerHTML='<div class="err">Error cargando posiciones.</div>';});
+}
+
+function render_standings(st) {
+  var li=document.getElementById('slist'); li.innerHTML='';
+  var grid=document.createElement('div'); grid.className='gg';
+  var lets=['A','B','C','D','E','F','G','H','I','J','K','L'];
+  st.forEach(function(g,idx){
+    var na=g[0]?g[0].group:'';
+    if(na==='Group Stage'||na==='Group stage') return;
+    var nm=na.replace('Group','Grupo').trim();
+    if(!nm||nm==='Grupo') nm='Grupo '+(lets[idx]||(idx+1));
+    var gc=document.createElement('div'); gc.className='gc';
+    gc.innerHTML='<div class="gh">'+nm+' <span>PJ G E P Pts</span></div>';
+    g.forEach(function(eq){
+      var pc=eq.rank===1?'pos pos1':eq.rank===2?'pos pos2':'pos';
+      var cb=eq.rank<=2?'<span class="cbadge">Clasifica</span>':'';
+      var lg=eq.team.logo?'<img src="'+eq.team.logo+'" style="width:18px;height:18px;object-fit:contain" alt="">':'';
+      gc.innerHTML+='<div class="gr"><span class="'+pc+'">'+eq.rank+'</span><span style="flex-shrink:0">'+lg+'</span><div style="flex:1;min-width:0;display:flex;align-items:center;gap:4px;overflow:hidden"><span class="tname">'+tn(eq.team.name)+'</span>'+cb+'</div><span class="st">'+eq.all.played+'</span><span class="st">'+eq.all.win+'</span><span class="st">'+eq.all.draw+'</span><span class="st">'+eq.all.lose+'</span><span class="st pts">'+eq.points+'</span></div>';
+    });
+    grid.appendChild(gc);
+  });
+  li.appendChild(grid);
+  li.innerHTML+='<p style="font-size:11px;color:var(--t3);margin-top:10px">Los dos primeros de cada grupo clasifican.</p>';
+  notify();
+}
+
+function load_predictions() {
+  if(dcache){render_predictions(dcache);return;}
+  var el=document.getElementById('dload'), li=document.getElementById('dlist');
+  el.style.display='block';
+  api('/fixtures',{next:3})
+    .then(function(data){
+      if(!data.response||!data.response.length){el.style.display='none';li.innerHTML='<div class="err">No hay partidos proximos.</div>';return;}
+      var fx=data.response.slice(0,3);
+      return Promise.all(fx.map(function(f){
+        return api('/predictions',{fixture:f.fixture.id})
+          .then(function(p){return{fixture:f,pred:p.response&&p.response[0]?p.response[0]:null};})
+          .catch(function(){return{fixture:f,pred:null};});
+      }));
+    })
+    .then(function(res){
+      el.style.display='none';
+      if(!res||!res.length) return;
+      dcache=res; render_predictions(res);
+    })
+    .catch(function(){el.style.display='none';li.innerHTML='<div class="err">Error cargando predicciones.</div>';});
+}
+
+function render_predictions(list) {
+  var li=document.getElementById('dlist'); li.innerHTML='';
+  var t=document.createElement('div'); t.className='ptitle'; t.textContent='Como vemos los proximos partidos'; li.appendChild(t);
+  list.forEach(function(r){
+    if(!r) return;
+    var lo=tn(r.fixture.teams.home.name), vi=tn(r.fixture.teams.away.name);
+    var wn=null, pl=45, pe=25, pv=30;
+    if(r.pred&&r.pred.predictions&&r.pred.predictions.percent){
+      var w=r.pred.predictions.winner, pct=r.pred.predictions.percent;
+      if(w) wn=tn(w.name);
+      pl=parseInt(pct.home)||45; pe=parseInt(pct.draw)||25; pv=parseInt(pct.away)||30;
+    }
+    var pc=document.createElement('div'); pc.className='pcard';
+    var fav=wn?'<div class="pfav"><i class="ti ti-trophy" style="font-size:14px"></i> Favorito: '+wn+' gana</div>':'<div class="pfav"><i class="ti ti-minus" style="font-size:14px"></i> Partido muy parejo</div>';
+    pc.innerHTML='<div class="pteams"><div class="pteam">'+lo+'</div><div class="pvs">vs</div><div class="pteam">'+vi+'</div></div>'+fav+'<div class="pbars"><div class="prow"><span class="plabel">'+lo+'</span><div class="ptrack"><div class="pfill" style="width:'+pl+'%"></div></div><span class="ppct">'+pl+'%</span></div><div class="prow"><span class="plabel">Empate</span><div class="ptrack"><div class="pfill d" style="width:'+pe+'%"></div></div><span class="ppct">'+pe+'%</span></div><div class="prow"><span class="plabel">'+vi+'</span><div class="ptrack"><div class="pfill a" style="width:'+pv+'%"></div></div><span class="ppct">'+pv+'%</span></div></div>';
+    li.appendChild(pc);
+  });
+  var n=document.createElement('p'); n.className='pnota'; n.textContent='* Predicciones basadas en modelos estadisticos de API-Football.'; li.appendChild(n);
+  notify();
+}
+
+function tick() {
+  var h=new Date().getHours();
+  var lb=document.getElementById('livebadge');
+  var sa=document.getElementById('sa'), sb=document.getElementById('sb');
+  var tk=document.getElementById('ticker');
+  if(h<H0||h>=H1){
+    lb.classList.remove('on'); tk.classList.remove('still');
+    sa.textContent='Consulta los partidos del dia     '; sb.textContent='Consulta los partidos del dia     '; return;
+  }
+  api('/fixtures',{live:'all'})
+    .then(function(data){
+      var vivos=data.response||[];
+      if(!vivos.length){
+        lb.classList.remove('on'); tk.classList.remove('still');
+        return api('/fixtures',{next:2}).then(function(d){
+          var px=d.response||[], txt='';
+          if(px.length>=2) txt=tn(px[0].teams.home.name)+' vs '+tn(px[0].teams.away.name)+'  -  '+hcol(px[0].fixture.timestamp)+'     |     '+tn(px[1].teams.home.name)+' vs '+tn(px[1].teams.away.name)+'  -  '+hcol(px[1].fixture.timestamp)+'     ';
+          else if(px.length===1) txt='Proximo: '+tn(px[0].teams.home.name)+' vs '+tn(px[0].teams.away.name)+'  -  '+hcol(px[0].fixture.timestamp)+'     ';
+          else txt='Consulta los partidos del dia     ';
+          sa.textContent=txt; sb.textContent=txt;
+        });
+      }
+      lb.classList.add('on'); tk.classList.add('still');
+      var f1=vivos[0];
+      var tv=tn(f1.teams.home.name)+' '+f1.goals.home+'-'+f1.goals.away+' '+tn(f1.teams.away.name)+" ("+f1.fixture.status.elapsed+"')";
+      return api('/fixtures',{next:1}).then(function(d){
+        var px=d.response&&d.response[0];
+        sa.textContent=tv+(px?'     |     Proximo: '+tn(px.teams.home.name)+' vs '+tn(px.teams.away.name)+'  -  '+hcol(px.fixture.timestamp):'');
+        sb.textContent='';
+      }).catch(function(){sa.textContent=tv;sb.textContent='';});
+    })
+    .catch(function(){
+      lb.classList.remove('on');tk.classList.remove('still');
+      var hoy=new Date(Date.now()-18000000);
+      var k=hoy.getUTCFullYear()+'-'+String(hoy.getUTCMonth()+1).padStart(2,'0')+'-'+String(hoy.getUTCDate()).padStart(2,'0');
+      var day=PAR[k];
+      if(day&&day.length>=2){
+        sa.textContent=day[0].l+' vs '+day[0].v+'  -  '+day[0].h+'     |     '+day[1].l+' vs '+day[1].v+'  -  '+day[1].h+'     ';
+        sb.textContent=day[0].l+' vs '+day[0].v+'  -  '+day[0].h+'     |     '+day[1].l+' vs '+day[1].v+'  -  '+day[1].h+'     ';
+      } else if(day&&day.length===1){
+        sa.textContent=day[0].l+' vs '+day[0].v+'  -  '+day[0].h+'     ';
+        sb.textContent=day[0].l+' vs '+day[0].v+'  -  '+day[0].h+'     ';
+      } else {
+        sa.textContent='Consulta los partidos del dia     ';
+        sb.textContent='Consulta los partidos del dia     ';
+      }
+    });
+}
+
+tick();
+setInterval(function(){if(new Date().getHours()>=H0&&new Date().getHours()<H1)tick();},60000);
+if(window.ResizeObserver){new ResizeObserver(function(){notify();}).observe(document.body);}
+else{setInterval(notify,500);}
+window.addEventListener('load',notify);
+</script>
+</body>
+</html>
